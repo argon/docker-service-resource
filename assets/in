@@ -8,17 +8,17 @@ exec 1>&2 # redirect all output to stderr for logging
 
 source $(dirname $0)/common.sh
 
-source=$1
+destination=$1
 
-if [ -z "$source" ]; then
-  echo "usage: $0 <path/to/source>"
+if [ -z "$destination" ]; then
+  echo "usage: $0 <path/to/destination>"
   exit 1
 fi
 
 # for jq
 PATH=/usr/local/bin:$PATH
 
-payload=$(mktemp /tmp/resource-out.XXXXXX)
+payload=$(mktemp /tmp/resource-in.XXXXXX)
 
 cat > $payload <&0
 
@@ -36,13 +36,4 @@ image_name="${repository}@${digest}"
 
 # fi
 
-service_id="$(docker service create --name "${name}" "$image_name")"
-
-jq -n "{
-  version: {
-    id: $(echo "$service_id" | jq -R .)
-  },
-  metadata: [
-    { name: \"image\", value: $(echo $image_name | jq -R .) }
-  ]
-}" >&3
+jq -n "{}" >&3

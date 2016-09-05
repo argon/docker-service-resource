@@ -25,6 +25,7 @@ cat > $payload <&0
 cd "$source"
 
 host="$(jq -r '.source.host // ""' < $payload)"
+with_registry_auth="$(jq -r '.source.registry_auth // false' < $payload)"
 
 export DOCKER_HOST=$host
 load_certs "$payload"
@@ -36,11 +37,14 @@ digest="$(cat "${image}/digest")"
 
 image_name="${repository}@${digest}"
 
+if [ "$with_registry_auth" != "true" ]; then
+  registry_auth="--with-registry-auth"
+fi
 # if docker service inspect "${name}"; then
 
 # fi
 
-service_id="$(docker service create --name "${name}" "$image_name")"
+service_id="$(docker service create --name "${name}" $registry_auth "$image_name")"
 
 jq -n "{
   version: {

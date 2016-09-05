@@ -3,6 +3,7 @@ export TMPDIR=${TMPDIR:-/tmp}
 load_certs() {
   local certs_path="$TMPDIR/certs"
 
+  mkdir -p "$certs_path"
   local key_path="$certs_path/key.pem"
   (jq -r '.source.key // empty' < $1) > $key_path
 

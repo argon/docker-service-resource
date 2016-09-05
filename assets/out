@@ -24,7 +24,9 @@ cat > $payload <&0
 
 cd "$source"
 
-export DOCKER_HOST="$(jq -r '.source.host // ""' < $payload)"
+host="$(jq -r '.source.host // ""' < $payload)"
+
+export DOCKER_HOST=$host
 load_certs "$payload"
 
 name="$(jq -r '.params.name // false' < $payload)"

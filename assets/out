@@ -22,6 +22,8 @@ payload=$(mktemp /tmp/resource-out.XXXXXX)
 
 cat > $payload <&0
 
+cd "$source"
+
 export DOCKER_HOST="$(jq -r '.source.host // ""' < $payload)"
 load_certs "$payload"
 

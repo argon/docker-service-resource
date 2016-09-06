@@ -37,7 +37,7 @@ digest="$(cat "${image}/digest")"
 
 image_name="${repository}@${digest}"
 
-if [ "$with_registry_auth" != "true" ]; then
+if [ "$with_registry_auth" = "true" ]; then
   registry_auth="--with-registry-auth"
 fi
 # if docker service inspect "${name}"; then

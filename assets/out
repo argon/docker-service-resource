@@ -35,7 +35,6 @@ docker_login "$payload"
 
 name="$(jq -r '.params.name // false' < $payload)"
 image="$(jq -r '.params.image // ""' < $payload)"
-environ="$(jq -r '.params.env // []' < $payload)"
 
 repository="$(cat "${image}/repository")"
 digest="$(cat "${image}/digest")"
@@ -46,7 +45,7 @@ if [ "$with_registry_auth" = "true" ]; then
   registry_auth="--with-registry-auth"
 fi
 
-environ=$(env_args "$environ" "--env")
+environ=$(env_args "$payload" "--env")
 
 # if docker service inspect "${name}"; then
 

@@ -32,8 +32,8 @@ docker_login() {
 }
 
 env_args() {
-  environ=$1
+  payload=$1
   flag=$2
 
-  jq -r ". as \$in | keys[] | \" $flag \(.)=\(\$in[.]) \\\ \" " < <(echo "$environ")
+  jq -r ".params.env | . as \$in | keys[] | \" $flag \(.)=\(\$in[.]) \\\ \" " < $payload
 }

@@ -30,3 +30,10 @@ docker_login() {
   eval $(echo "$registry" | \
     jq -r ".[] | \"docker login -u '\\(.username)' -p '\\(.password)' '\\(.host)'; \"")
 }
+
+env_args() {
+  payload=$1
+  flag=$2
+
+  jq -r ". as \$in | keys[] | \" $flag \(.)=\(\$in[.]) \\ \" "
+}

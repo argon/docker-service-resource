@@ -35,5 +35,5 @@ env_args() {
   payload=$1
   flag=$2
 
-  jq -r ". as \$in | keys[] | \" $flag \(.)=\(\$in[.]) \\ \" "
+  jq -r ". as \$in | keys[] | \" $flag \(.)=\(\$in[.]) \\\ \" "
 }

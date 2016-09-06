@@ -23,3 +23,10 @@ load_certs() {
   fi
 }
 
+docker_login() {
+  local payload="$1"
+  registry="$(jq -r '.source.registry // []' < $payload)"
+
+  eval $(echo "$registry" | \
+    jq -r ".[] | \"docker login -u '\\(.username)' -p '\\(.password)' '\\(.host)'; \"")
+}
